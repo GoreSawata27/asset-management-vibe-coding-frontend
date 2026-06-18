@@ -12,7 +12,7 @@ export function FilterToolbar({
   return (
     <div
       className={cn(
-        "flex flex-wrap items-center gap-3 border-b border-border bg-muted/20 p-4",
+        "flex flex-wrap items-center gap-2 border-b border-border bg-primary/[0.03] p-3",
         className
       )}
     >

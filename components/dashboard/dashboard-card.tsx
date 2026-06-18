@@ -10,11 +10,10 @@ export function DashboardCard({
   return (
     <Card
       className={cn(
-        "rounded-xl ring-1 ring-border/60 shadow-[0_1px_0_rgba(15,23,42,0.04)]",
+        "rounded-xl shadow-[0_1px_0_rgba(15,23,42,0.04)] ring-1 ring-border/60",
         className
       )}
       {...props}
     />
   )
 }
-

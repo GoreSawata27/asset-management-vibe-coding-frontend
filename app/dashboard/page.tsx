@@ -178,7 +178,7 @@ export default function Page() {
   return (
     <DashboardShell title="Overview">
       {/* Executive Signals (hero panel) */}
-      <section className="rounded-2xl border border-border bg-[#F5F3FF] p-6 shadow-[0_1px_0_rgba(15,23,42,0.04)] sm:p-8">
+      <section className="rounded-2xl border border-border bg-hero-panel p-6 shadow-[0_1px_0_rgba(15,23,42,0.04)] sm:p-8">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0">
             <div className="text-sm text-muted-foreground">
@@ -279,7 +279,7 @@ export default function Page() {
               />
             </div>
 
-            <div className="rounded-2xl border border-border bg-muted/40 p-5">
+            <div className="rounded-2xl border border-border bg-accent/40 p-5">
               <div className="flex items-center justify-between gap-3">
                 <div className="text-sm font-medium tracking-tight">
                   Readiness Summary
@@ -521,7 +521,7 @@ export default function Page() {
             title="Hardware Alerts"
             description="Proactive queue for expiring warranties and repair backlog."
           />
-          <div className="mt-5 rounded-2xl border border-border/60 bg-muted/30 p-4">
+          <div className="mt-5 rounded-2xl border border-border/60 bg-accent/30 p-4">
             <div className="text-sm font-medium tracking-tight">
               All Clear — No Action Needed
             </div>

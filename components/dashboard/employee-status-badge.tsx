@@ -11,7 +11,7 @@ const styles: Record<EmploymentStatus, string> = {
   "On Leave":
     "bg-amber-500/10 text-amber-700 border-amber-500/20 dark:bg-amber-500/20 dark:text-amber-400",
   Terminated:
-    "bg-slate-500/10 text-slate-700 border-slate-500/20 dark:bg-slate-500/20 dark:text-slate-400",
+    "bg-violet-500/10 text-violet-700 border-violet-500/20 dark:bg-violet-500/20 dark:text-violet-400",
 }
 
 export function EmployeeStatusBadge({

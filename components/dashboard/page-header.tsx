@@ -18,7 +18,7 @@ export function PageHeader({
   return (
     <header className={cn("space-y-1", className)}>
       {eyebrow ? (
-        <p className="text-xs font-medium tracking-wide text-muted-foreground">
+        <p className="text-xs font-medium tracking-wide text-primary">
           {eyebrow}
         </p>
       ) : null}

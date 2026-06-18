@@ -33,7 +33,7 @@ export function SummaryStatCard({
         </div>
         <div
           className={cn(
-            "grid size-9 shrink-0 place-items-center rounded-lg",
+            "grid size-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary ring-1 ring-primary/15",
             iconClassName
           )}
         >

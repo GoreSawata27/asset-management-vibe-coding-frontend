@@ -22,6 +22,7 @@ import { Toaster, toast } from "sonner"
 import { DashboardShell } from "@/components/dashboard/dashboard-shell"
 import { DataTable, type ColumnDef } from "@/components/dashboard/data-table"
 import { DashboardCard } from "@/components/dashboard/dashboard-card"
+import { KpiCard } from "@/components/dashboard/kpi-card"
 import { LicenseStatusBadge } from "@/components/dashboard/license-status-badge"
 import { SeatUtilization } from "@/components/dashboard/seat-utilization"
 import { FilterToolbar } from "@/components/dashboard/filter-toolbar"
@@ -578,10 +579,48 @@ export default function SoftwarePage() {
         eyebrow="Apps, subscriptions & licensing"
         title="Software Subscriptions"
         description="Track seat allocation, renewal dates, and subscription spend across vendors."
-        meta={`${kpis.totalLicenses} subscriptions total · ${kpis.assignedSeats} seats assigned · ${kpis.availableSeats} seats available · ${kpis.monthlySpend} spend`}
+        meta={`${filteredLicenses.length} of ${kpis.totalLicenses} subscriptions shown`}
       />
 
-      <DashboardCard className="mt-6 overflow-hidden">
+      <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <KpiCard
+          compact
+          icon={Layers3Icon}
+          iconColor="text-violet-600"
+          label="Subscriptions"
+          value={String(kpis.totalLicenses)}
+        />
+        <KpiCard
+          compact
+          icon={UsersIcon}
+          iconColor="text-blue-600"
+          label="Assigned Seats"
+          value={kpis.assignedSeats.toLocaleString()}
+        />
+        <KpiCard
+          compact
+          icon={BadgeCheckIcon}
+          iconColor="text-emerald-600"
+          label="Available Seats"
+          value={kpis.availableSeats.toLocaleString()}
+        />
+        <KpiCard
+          compact
+          icon={ClockIcon}
+          iconColor="text-amber-600"
+          label="Expiring Soon"
+          value={String(kpis.expiringSoon)}
+        />
+        <KpiCard
+          compact
+          icon={CreditCardIcon}
+          iconColor="text-violet-600"
+          label="Monthly Spend"
+          value={kpis.monthlySpend}
+        />
+      </div>
+
+      <DashboardCard className="mt-5 overflow-hidden">
         <FilterToolbar>
           <div className="relative min-w-[240px] flex-1">
             <SearchIcon className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -615,19 +654,17 @@ export default function SoftwarePage() {
           </NativeSelect>
         </FilterToolbar>
 
-        <div className="p-4">
-          {filteredLicenses.length > 0 ? (
-            <DataTable columns={columns} rows={filteredLicenses} className="ring-0" />
-          ) : (
-            <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border/60 bg-muted/10 p-12 text-center">
-              <AlertTriangleIcon className="mb-2 size-8 text-muted-foreground/60" />
-              <div className="text-sm font-medium text-foreground">No software subscriptions found</div>
-              <div className="mt-1 max-w-sm text-sm text-muted-foreground">
-                Try adjusting your search query or filters to find license subscriptions.
-              </div>
+        {filteredLicenses.length > 0 ? (
+          <DataTable embedded columns={columns} rows={filteredLicenses} />
+        ) : (
+          <div className="flex flex-col items-center justify-center border-t border-border p-10 text-center">
+            <AlertTriangleIcon className="mb-2 size-8 text-muted-foreground/60" />
+            <div className="text-sm font-medium text-foreground">No software subscriptions found</div>
+            <div className="mt-1 max-w-sm text-sm text-muted-foreground">
+              Try adjusting your search query or filters to find license subscriptions.
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </DashboardCard>
 
       {/* 1. Add / Edit Subscription Dialog */}

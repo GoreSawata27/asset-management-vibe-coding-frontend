@@ -733,10 +733,10 @@ export default function HardwarePage() {
         eyebrow="Inventory"
         title="Hardware Inventory"
         description="Track laptops, monitors, peripherals, and their assignment status across your organization."
-        meta={`${kpis.total} assets total · ${kpis.assigned} assigned · ${kpis.inStock} in stock`}
+        meta={`${filteredAssets.length} of ${kpis.total} assets shown`}
       />
 
-      <DashboardCard className="mt-6 overflow-hidden">
+      <DashboardCard className="mt-5 overflow-hidden">
         <FilterToolbar>
           <div className="relative min-w-[240px] flex-1">
             <SearchIcon className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -772,23 +772,21 @@ export default function HardwarePage() {
           </NativeSelect>
         </FilterToolbar>
 
-        <div className="p-4">
-          {filteredAssets.length > 0 ? (
-            <DataTable
-              columns={columns}
-              rows={filteredAssets}
-              className="ring-0"
-            />
-          ) : (
-            <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border/60 bg-muted/10 p-12 text-center">
-              <AlertTriangleIcon className="mb-2 size-8 text-muted-foreground/60" />
-              <div className="text-sm font-medium text-foreground">No hardware assets found</div>
-              <div className="mt-1 max-w-sm text-sm text-muted-foreground">
-                Try adjusting your search query or filters to find inventory items.
-              </div>
+        {filteredAssets.length > 0 ? (
+          <DataTable
+            embedded
+            columns={columns}
+            rows={filteredAssets}
+          />
+        ) : (
+          <div className="flex flex-col items-center justify-center border-t border-border p-10 text-center">
+            <AlertTriangleIcon className="mb-2 size-8 text-muted-foreground/60" />
+            <div className="text-sm font-medium text-foreground">No hardware assets found</div>
+            <div className="mt-1 max-w-sm text-sm text-muted-foreground">
+              Try adjusting your search query or filters to find inventory items.
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </DashboardCard>
 
       {/* 1. Add / Edit Asset Modal */}

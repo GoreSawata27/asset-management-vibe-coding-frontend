@@ -22,19 +22,29 @@ export type ColumnDef<T> = {
 export function DataTable<T>({
   columns,
   rows,
+  embedded = false,
   className,
 }: {
   columns: ColumnDef<T>[]
   rows: T[]
+  embedded?: boolean
   className?: string
 }) {
   return (
-    <div className={cn("overflow-hidden rounded-xl ring-1 ring-border/60", className)}>
+    <div
+      className={cn(
+        "overflow-hidden",
+        embedded
+          ? "border-t border-border [&_th]:h-9 [&_th]:px-3 [&_td]:px-3 [&_td]:py-2.5"
+          : "rounded-xl ring-1 ring-border/60 [&_th]:px-4 [&_td]:px-4 [&_td]:py-3",
+        className
+      )}
+    >
       <Table>
         <TableHeader>
-          <TableRow className="bg-muted/30 hover:bg-muted/30">
+          <TableRow className="border-border bg-primary/5 hover:bg-primary/5">
             {columns.map((col) => (
-              <TableHead key={col.key} className={cn("px-4", col.className)}>
+              <TableHead key={col.key} className={col.className}>
                 {col.header}
               </TableHead>
             ))}
@@ -42,9 +52,9 @@ export function DataTable<T>({
         </TableHeader>
         <TableBody>
           {rows.map((row, idx) => (
-            <TableRow key={idx} className="hover:bg-muted/40">
+            <TableRow key={idx} className="border-border hover:bg-accent/50">
               {columns.map((col) => (
-                <TableCell key={col.key} className={cn("px-4 py-3", col.className)}>
+                <TableCell key={col.key} className={col.className}>
                   {col.cell(row)}
                 </TableCell>
               ))}
