@@ -2,59 +2,65 @@
 
 import * as React from "react"
 import { useMemo } from "react"
+import { type ColDef, type ICellRendererParams } from "ag-grid-community"
 import { Inbox, Mail, Pencil, Phone, Trash2, Truck } from "lucide-react"
 
-import { DataTable, dataTableActionsCellClass, dataTableActionsHeaderClass, type DataTableColumn } from "@/components/custom/DataTable"
+import { DataTable, dataTableActionsHeaderClass } from "@/components/custom/DataTable"
 import { Button } from "@/components/ui/button"
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty"
 import { type Supplier } from "@/lib/suppliers/data"
 import { typeScale } from "@/lib/typography"
 import { cn } from "@/lib/utils"
 
-function SupplierCell({ row }: { row: Supplier }) {
+function SupplierCell({ data }: ICellRendererParams<Supplier>) {
+  if (!data) return null
   return (
     <div className="flex min-w-0 items-center gap-3">
       <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-accent text-primary ring-1 ring-border/60">
         <Truck className="size-4" />
       </span>
       <div className="min-w-0">
-        <span className={cn("block truncate", typeScale.body.emphasis)}>{row.name}</span>
-        <span className={cn("block truncate", typeScale.caption.meta)}>{row.category || "—"}</span>
+        <span className={cn("block truncate", typeScale.body.emphasis)}>{data.name}</span>
+        <span className={cn("block truncate", typeScale.caption.meta)}>
+          {data.category || "—"}
+        </span>
       </div>
     </div>
   )
 }
 
-function ContactCell({ row }: { row: Supplier }) {
-  const hasContact = row.contactName || row.contactEmail || row.contactPhone
+function ContactCell({ data }: ICellRendererParams<Supplier>) {
+  if (!data) return null
+  const hasContact = data.contactName || data.contactEmail || data.contactPhone
   if (!hasContact) return <span className={typeScale.body.muted}>—</span>
 
   return (
-    <div className="flex min-w-0 flex-col gap-1">
-      {row.contactName ? (
-        <span className={cn("truncate", typeScale.body.emphasis)}>{row.contactName}</span>
+    <div className="flex min-w-0 flex-col gap-1 py-1">
+      {data.contactName ? (
+        <span className={cn("truncate", typeScale.body.emphasis)}>{data.contactName}</span>
       ) : null}
-      {row.contactEmail ? (
+      {data.contactEmail ? (
         <span className={cn("inline-flex min-w-0 items-center gap-1.5 truncate", typeScale.caption.meta)}>
           <Mail className="size-3.5 shrink-0" />
-          {row.contactEmail}
+          {data.contactEmail}
         </span>
       ) : null}
-      {row.contactPhone ? (
+      {data.contactPhone ? (
         <span className={cn("inline-flex min-w-0 items-center gap-1.5 truncate", typeScale.caption.meta)}>
           <Phone className="size-3.5 shrink-0" />
-          {row.contactPhone}
+          {data.contactPhone}
         </span>
       ) : null}
     </div>
   )
 }
 
-function ProvidesCell({ row }: { row: Supplier }) {
+function ProvidesCell({ data }: ICellRendererParams<Supplier>) {
+  if (!data) return null
   const parts: string[] = []
-  if (row.hardwareCount > 0) parts.push(`${row.hardwareCount} Hardware`)
-  if (row.softwareCount > 0) parts.push(`${row.softwareCount} Software`)
-  if (!row.hasVendorCert) parts.push("No vendor cert")
+  if (data.hardwareCount > 0) parts.push(`${data.hardwareCount} Hardware`)
+  if (data.softwareCount > 0) parts.push(`${data.softwareCount} Software`)
+  if (!data.hasVendorCert) parts.push("No vendor cert")
 
   if (parts.length === 0) {
     return <span className={typeScale.body.muted}>—</span>
@@ -69,18 +75,16 @@ function ProvidesCell({ row }: { row: Supplier }) {
   )
 }
 
-function ActionsCell({
-  row,
-  onEdit,
-  onDelete,
-}: {
-  row: Supplier
+type ActionsCellProps = ICellRendererParams<Supplier> & {
   onEdit: (supplier: Supplier) => void
   onDelete: (supplier: Supplier) => void
-}) {
+}
+
+function ActionsCell({ data, onEdit, onDelete }: ActionsCellProps) {
+  if (!data) return null
   return (
     <div className="flex w-full items-center justify-end gap-1">
-      <Button variant="ghost" size="icon-sm" aria-label="Edit supplier" onClick={() => onEdit(row)}>
+      <Button variant="ghost" size="icon-sm" aria-label="Edit supplier" onClick={() => onEdit(data)}>
         <Pencil />
       </Button>
       <Button
@@ -88,12 +92,16 @@ function ActionsCell({
         size="icon-sm"
         aria-label="Remove supplier"
         className="text-destructive hover:bg-destructive/10 hover:text-destructive"
-        onClick={() => onDelete(row)}
+        onClick={() => onDelete(data)}
       >
         <Trash2 />
       </Button>
     </div>
   )
+}
+
+function createActionsRenderer(handlers: Omit<ActionsCellProps, keyof ICellRendererParams>) {
+  return (params: ICellRendererParams<Supplier>) => <ActionsCell {...params} {...handlers} />
 }
 
 export interface SuppliersTableProps {
@@ -103,34 +111,39 @@ export interface SuppliersTableProps {
 }
 
 function SuppliersTable({ rows, onEdit, onDelete }: SuppliersTableProps) {
-  const columns = useMemo<DataTableColumn<Supplier>[]>(
+  const columnDefs = useMemo<ColDef<Supplier>[]>(
     () => [
       {
-        id: "name",
-        header: "Supplier",
-        sortValue: (row) => row.name,
-        cell: (row) => <SupplierCell row={row} />,
+        headerName: "Supplier",
+        field: "name",
+        flex: 1.6,
+        minWidth: 180,
+        cellRenderer: SupplierCell,
       },
       {
-        id: "contact",
-        header: "Contact",
+        headerName: "Contact",
+        colId: "contact",
+        flex: 1.8,
+        minWidth: 180,
         sortable: false,
-        cell: (row) => <ContactCell row={row} />,
+        cellRenderer: ContactCell,
       },
       {
-        id: "provides",
-        header: "Provides",
+        headerName: "Provides",
+        colId: "provides",
+        flex: 2,
+        minWidth: 220,
         sortable: false,
-        cell: (row) => <ProvidesCell row={row} />,
+        cellRenderer: ProvidesCell,
       },
       {
-        id: "actions",
-        header: "Actions",
+        headerName: "Actions",
+        colId: "actions",
+        flex: 0.8,
+        minWidth: 90,
         sortable: false,
-        align: "right",
-        headerClassName: dataTableActionsHeaderClass,
-        cellClassName: dataTableActionsCellClass,
-        cell: (row) => <ActionsCell row={row} onEdit={onEdit} onDelete={onDelete} />,
+        headerClass: dataTableActionsHeaderClass,
+        cellRenderer: createActionsRenderer({ onEdit, onDelete }),
       },
     ],
     [onEdit, onDelete]
@@ -139,7 +152,7 @@ function SuppliersTable({ rows, onEdit, onDelete }: SuppliersTableProps) {
   return (
     <DataTable<Supplier>
       rowData={rows}
-      columns={columns}
+      columnDefs={columnDefs}
       pageSize={10}
       emptyState={
         <Empty className="border-0 bg-transparent py-12">

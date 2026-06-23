@@ -16,6 +16,7 @@ import { HistoryTab } from "./history-tab"
 import { OffboardingTab } from "./offboarding-tab"
 import { OnboardingTab } from "./onboarding-tab"
 import { PageHeader } from "@/components/layout/PageHeader"
+import { Toaster } from "@/components/ui/sonner"
 import { TabNav, type TabNavItem } from "@/components/ui/tab-nav"
 import { Tabs, TabsContent } from "@/components/ui/tabs"
 import {
@@ -56,6 +57,7 @@ function EmployeeLifecyclePage() {
 
   return (
     <>
+      <Toaster richColors closeButton />
       <PageHeader
         eyebrow="Workflows"
         title="Department onboarding & offboarding"

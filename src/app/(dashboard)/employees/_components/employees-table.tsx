@@ -3,9 +3,10 @@
 import * as React from "react"
 import { useMemo } from "react"
 import { format, isValid, parseISO } from "date-fns"
-import { AppWindow, HardDrive, Inbox, PanelRightOpen, Pencil, Trash2 } from "lucide-react"
+import { type ColDef, type ICellRendererParams } from "ag-grid-community"
+import { Cpu, Inbox, Key, Pencil, Trash2 } from "lucide-react"
 
-import { DataTable, dataTableActionsCellClass, dataTableActionsHeaderClass, type DataTableColumn } from "@/components/custom/DataTable"
+import { DataTable, dataTableActionsHeaderClass } from "@/components/custom/DataTable"
 import { EmploymentStatusBadge } from "./employment-status-badge"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -29,57 +30,65 @@ function formatStartDate(value: string) {
   return isValid(parsed) ? format(parsed, "dd MMM yyyy") : value
 }
 
-function EmployeeCell({ row }: { row: Employee }) {
+type EmployeeCellProps = ICellRendererParams<Employee> & {
+  onOpenDetail: (employee: Employee) => void
+}
+
+function EmployeeCell({ data, onOpenDetail }: EmployeeCellProps) {
+  if (!data) return null
   return (
-    <div className="flex min-w-0 items-center gap-3">
+    <button
+      type="button"
+      onClick={() => onOpenDetail(data)}
+      className="flex min-w-0 items-center gap-3 text-left"
+    >
       <Avatar size="sm">
-        <AvatarFallback className="bg-accent text-primary">{getInitials(row.name)}</AvatarFallback>
+        <AvatarFallback className="bg-accent text-xs text-primary">{getInitials(data.name)}</AvatarFallback>
       </Avatar>
       <div className="min-w-0">
-        <span className={cn("block truncate", typeScale.body.emphasis)}>{row.name}</span>
-        <span className={cn("block truncate", typeScale.caption.meta)}>{row.email}</span>
+        <span className={cn("block truncate", typeScale.body.emphasis)}>{data.name}</span>
+        <span className={cn("block truncate", typeScale.caption.meta)}>{data.email}</span>
       </div>
-    </div>
+    </button>
   )
 }
 
-function AssignedCell({ row }: { row: Employee }) {
+function StatusCell({ data }: ICellRendererParams<Employee>) {
+  if (!data) return null
+  return <EmploymentStatusBadge status={data.status} />
+}
+
+function AssignedCell({ data }: ICellRendererParams<Employee>) {
+  if (!data) return null
   return (
     <div className={cn("flex items-center gap-3", typeScale.body.muted)}>
       <span className="inline-flex items-center gap-1">
-        <HardDrive className="size-3.5 shrink-0" />
-        {row.hardwareAssignments.length}
+        <Cpu className="size-3.5" />
+        {data.hardwareAssignments.length}
       </span>
       <span className="inline-flex items-center gap-1">
-        <AppWindow className="size-3.5 shrink-0" />
-        {row.softwareAssignments.length}
+        <Key className="size-3.5" />
+        {data.softwareAssignments.length}
       </span>
     </div>
   )
 }
 
-function ActionsCell({
-  row,
-  onOpenDetail,
-  onEdit,
-  onDelete,
-}: {
-  row: Employee
-  onOpenDetail: (employee: Employee) => void
+function WorkspaceCell({ data }: ICellRendererParams<Employee>) {
+  if (!data) return null
+  return <span className={typeScale.body.muted}>{data.workspaceEnabled ? data.workspaceRole : "—"}</span>
+}
+
+type ActionsCellProps = ICellRendererParams<Employee> & {
   onEdit: (employee: Employee) => void
   onDelete: (employee: Employee) => void
-}) {
+}
+
+function ActionsCell({ data, onEdit, onDelete }: ActionsCellProps) {
+  if (!data) return null
   return (
     <div className="flex w-full items-center justify-end gap-1">
-      <Button
-        variant="ghost"
-        size="icon-sm"
-        aria-label="View employee details"
-        onClick={() => onOpenDetail(row)}
-      >
-        <PanelRightOpen />
-      </Button>
-      <Button variant="ghost" size="icon-sm" aria-label="Edit employee" onClick={() => onEdit(row)}>
+      <Button variant="ghost" size="icon-sm" aria-label="Edit employee" onClick={() => onEdit(data)}>
         <Pencil />
       </Button>
       <Button
@@ -87,12 +96,20 @@ function ActionsCell({
         size="icon-sm"
         aria-label="Delete employee"
         className="text-destructive hover:bg-destructive/10 hover:text-destructive"
-        onClick={() => onDelete(row)}
+        onClick={() => onDelete(data)}
       >
         <Trash2 />
       </Button>
     </div>
   )
+}
+
+function createEmployeeRenderer(onOpenDetail: (employee: Employee) => void) {
+  return (params: ICellRendererParams<Employee>) => <EmployeeCell {...params} onOpenDetail={onOpenDetail} />
+}
+
+function createActionsRenderer(handlers: Omit<ActionsCellProps, keyof ICellRendererParams>) {
+  return (params: ICellRendererParams<Employee>) => <ActionsCell {...params} {...handlers} />
 }
 
 export interface EmployeesTableProps {
@@ -103,83 +120,68 @@ export interface EmployeesTableProps {
 }
 
 function EmployeesTable({ rows, onOpenDetail, onEdit, onDelete }: EmployeesTableProps) {
-  const columns = useMemo<DataTableColumn<Employee>[]>(
+  const columnDefs = useMemo<ColDef<Employee>[]>(
     () => [
       {
-        id: "name",
-        header: "Employee",
-        flex: 2.5,
-        minWidth: 240,
-        sortValue: (row) => row.name,
-        cell: (row) => <EmployeeCell row={row} />,
+        headerName: "Employee",
+        field: "name",
+        flex: 2,
+        minWidth: 200,
+        cellRenderer: createEmployeeRenderer(onOpenDetail),
       },
       {
-        id: "employeeId",
-        header: "Employee ID",
+        headerName: "Employee ID",
+        field: "employeeId",
         flex: 1,
-        minWidth: 132,
-        sortValue: (row) => row.employeeId,
-        cellClassName: cn(typeScale.body.muted, "font-mono tabular-nums"),
-        cell: (row) => row.employeeId,
+        minWidth: 110,
+        cellClass: cn(typeScale.body.muted, "font-mono tabular-nums"),
       },
       {
-        id: "department",
-        header: "Department",
+        headerName: "Department",
+        field: "department",
         flex: 1,
-        minWidth: 128,
-        sortValue: (row) => row.department,
-        cellClassName: typeScale.body.muted,
-        cell: (row) => row.department || "—",
-      },
-      {
-        id: "location",
-        header: "Location",
-        width: 112,
-        minWidth: 96,
-        resizable: true,
-        sortValue: (row) => formatEmployeeLocation(row),
-        cellClassName: cn(typeScale.body.muted, "truncate"),
-        cell: (row) => <span className="block truncate">{formatEmployeeLocation(row)}</span>,
-      },
-      {
-        id: "assigned",
-        header: "Assigned",
-        flex: 0.9,
-        minWidth: 104,
-        sortable: false,
-        cell: (row) => <AssignedCell row={row} />,
-      },
-      {
-        id: "workspace",
-        header: "Workspace",
-        flex: 0.65,
-        minWidth: 120,
-        sortValue: (row) => (row.workspaceEnabled ? row.workspaceRole : ""),
-        cellClassName: cn(typeScale.body.muted, "truncate"),
-        cell: (row) => (
-          <span className="block truncate">{row.workspaceEnabled ? row.workspaceRole : "—"}</span>
-        ),
-      },
-      {
-        id: "status",
-        header: "Status",
-        flex: 0.75,
         minWidth: 100,
-        sortValue: (row) => row.status,
-        cell: (row) => <EmploymentStatusBadge status={row.status} />,
+        valueFormatter: ({ value }) => (value ? String(value) : "—"),
+        cellClass: typeScale.body.muted,
       },
       {
-        id: "actions",
-        header: "Actions",
-        width: 132,
-        minWidth: 132,
+        headerName: "Location",
+        colId: "location",
+        flex: 1.4,
+        minWidth: 140,
+        valueGetter: ({ data }) => (data ? formatEmployeeLocation(data) : ""),
+        cellClass: cn(typeScale.body.muted, "truncate"),
+      },
+      {
+        headerName: "Assigned",
+        colId: "assigned",
+        flex: 0.9,
+        minWidth: 90,
         sortable: false,
-        align: "right",
-        headerClassName: dataTableActionsHeaderClass,
-        cellClassName: dataTableActionsCellClass,
-        cell: (row) => (
-          <ActionsCell row={row} onOpenDetail={onOpenDetail} onEdit={onEdit} onDelete={onDelete} />
-        ),
+        cellRenderer: AssignedCell,
+      },
+      {
+        headerName: "Workspace",
+        colId: "workspace",
+        flex: 1,
+        minWidth: 100,
+        cellRenderer: WorkspaceCell,
+      },
+      {
+        headerName: "Status",
+        field: "status",
+        flex: 1,
+        minWidth: 110,
+        cellRenderer: StatusCell,
+      },
+      {
+        headerName: "Actions",
+        colId: "actions",
+        flex: 0.9,
+        minWidth: 90,
+        sortable: false,
+        headerClass: dataTableActionsHeaderClass,
+        cellRenderer: createActionsRenderer({ onEdit, onDelete }),
       },
     ],
     [onOpenDetail, onEdit, onDelete]
@@ -188,7 +190,7 @@ function EmployeesTable({ rows, onOpenDetail, onEdit, onDelete }: EmployeesTable
   return (
     <DataTable<Employee>
       rowData={rows}
-      columns={columns}
+      columnDefs={columnDefs}
       pageSize={10}
       emptyState={
         <Empty className="border-0 bg-transparent py-12">

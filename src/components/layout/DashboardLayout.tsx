@@ -17,7 +17,6 @@ import {
 import { Navbar } from "@/components/layout/Navbar"
 import { ContentWrapper } from "@/components/layout/ContentWrapper"
 import { getPageTitle } from "@/components/layout/nav-config"
-import { Toaster } from "@/components/ui/sonner"
 
 const DEFAULT_USER: SidebarUser = {
   name: "John Doe",
@@ -62,7 +61,6 @@ export function DashboardLayout({
 
   return (
     <div className={cn("flex min-h-svh w-full bg-background", className)}>
-      <Toaster />
       {/* Desktop sidebar */}
       <Sidebar className="sticky top-0 hidden h-svh self-start md:flex">
         <SidebarBody />
@@ -72,7 +70,7 @@ export function DashboardLayout({
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen} modal={false}>
         <SheetContent side="left" className="w-60 gap-0 bg-sidebar p-0 text-sidebar-foreground">
           <SheetTitle className="sr-only">Workspace navigation</SheetTitle>
-          <Sidebar className="h-full w-full border-r-0 shadow-none">
+          <Sidebar className="h-full w-full border-r-0">
             <SidebarBody onNavigate={() => setMobileOpen(false)} />
           </Sidebar>
         </SheetContent>

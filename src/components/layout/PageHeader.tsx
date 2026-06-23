@@ -3,7 +3,6 @@ import { type LucideIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { typeScale } from "@/lib/typography"
-import { pageShellPadding } from "@/components/layout/layout-spacing"
 
 /**
  * Page wrapper used at the root of every workspace page. It renders the page
@@ -36,7 +35,7 @@ function PageHeader({
   ...props
 }: PageHeaderProps) {
   return (
-    <div data-slot="page-header" className={cn("w-full space-y-6", pageShellPadding, className)} {...props}>
+    <div data-slot="page-header" className={cn("w-full space-y-6 p-4 sm:p-6 lg:p-8", className)} {...props}>
       <div
         className={cn("flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between", headerClassName)}
       >

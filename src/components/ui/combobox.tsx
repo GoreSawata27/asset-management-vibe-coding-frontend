@@ -4,7 +4,6 @@ import * as React from "react"
 import { Combobox as ComboboxPrimitive } from "@base-ui/react"
 
 import { cn } from "@/lib/utils"
-import { POPOVER_SIDE_OFFSET } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@/components/ui/input-group"
 import { ChevronDownIcon, XIcon, CheckIcon } from "lucide-react"
@@ -78,7 +77,7 @@ function ComboboxInput({
 function ComboboxContent({
   className,
   side = "bottom",
-  sideOffset = POPOVER_SIDE_OFFSET,
+  sideOffset = 6,
   align = "start",
   alignOffset = 0,
   anchor,
