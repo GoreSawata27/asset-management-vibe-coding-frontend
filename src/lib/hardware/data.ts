@@ -61,7 +61,7 @@ export const initialHardwareAssets: HardwareAsset[] = [
     status: "In Stock",
     assignee: "",
     supplier: "Trace",
-    location: "—",
+    location: "",
     warranty: "2027-06-16",
     serial: "S/N: HP-LAP-0012-X",
     history: [
@@ -81,7 +81,7 @@ export const initialHardwareAssets: HardwareAsset[] = [
     status: "In Stock",
     assignee: "",
     supplier: "Trace",
-    location: "—",
+    location: "",
     warranty: "2027-06-16",
     serial: "S/N: HP-LAP-0013-X",
     history: [
@@ -101,7 +101,7 @@ export const initialHardwareAssets: HardwareAsset[] = [
     status: "In Stock",
     assignee: "",
     supplier: "Trace",
-    location: "—",
+    location: "",
     warranty: "2027-06-16",
     serial: "S/N: HP-LAP-0014-X",
     history: [
@@ -121,7 +121,7 @@ export const initialHardwareAssets: HardwareAsset[] = [
     status: "In Stock",
     assignee: "",
     supplier: "Trace",
-    location: "—",
+    location: "",
     warranty: "2027-06-16",
     serial: "S/N: HP-LAP-0015-X",
     history: [
@@ -141,7 +141,7 @@ export const initialHardwareAssets: HardwareAsset[] = [
     status: "Assigned",
     assignee: "Mahesh",
     supplier: "Trace",
-    location: "—",
+    location: "",
     warranty: "2027-06-16",
     serial: "S/N: HP-LAP-0011-Y",
     history: [
@@ -167,7 +167,7 @@ export const initialHardwareAssets: HardwareAsset[] = [
     status: "In Stock",
     assignee: "",
     supplier: "InnovB",
-    location: "—",
+    location: "",
     warranty: "2026-06-14",
     serial: "S/N: AP-MBP-0027-A",
     history: [
@@ -187,7 +187,7 @@ export const initialHardwareAssets: HardwareAsset[] = [
     status: "In Stock",
     assignee: "",
     supplier: "InnovB",
-    location: "—",
+    location: "",
     warranty: "2026-06-14",
     serial: "S/N: AP-MBP-0028-B",
     history: [
@@ -305,7 +305,7 @@ export const initialHardwareAssets: HardwareAsset[] = [
     status: "Retired",
     assignee: "",
     supplier: "Apple Store",
-    location: "—",
+    location: "",
     warranty: "Expired",
     serial: "S/N: AP-MBA-0106-E",
     history: [
@@ -352,7 +352,7 @@ export const initialHardwareAssets: HardwareAsset[] = [
     status: "Assigned",
     assignee: "Mahesh",
     supplier: "Logitech Store",
-    location: "—",
+    location: "",
     warranty: "2026-11-05",
     serial: "S/N: LO-MSE-0345-S",
     history: [

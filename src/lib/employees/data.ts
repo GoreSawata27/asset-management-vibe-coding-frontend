@@ -42,7 +42,7 @@ export const EMPLOYEE_DEPARTMENTS = [
   "Marketing",
 ] as const
 
-export const EMPLOYEE_MANAGERS = ["— None —", "John Doe", "Asha Nair", "Rahul Menon"] as const
+export const EMPLOYEE_MANAGERS = ["None", "John Doe", "Asha Nair", "Rahul Menon"] as const
 
 export const WORKSPACE_ROLES: WorkspaceRole[] = ["Admin", "Manager", "HR", "Employee"]
 
@@ -82,7 +82,7 @@ export const initialEmployees: Employee[] = [
     phone: "97900191202",
     jobTitle: "IT Administrator",
     department: "",
-    manager: "— None —",
+    manager: "None",
     startDate: "2024-03-15",
     address: "afas",
     city: "fas",

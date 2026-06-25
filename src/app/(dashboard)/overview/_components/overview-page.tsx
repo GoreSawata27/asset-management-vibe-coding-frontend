@@ -29,6 +29,7 @@ import { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription } from "@/
 import { HardwareHealthTab } from "./hardware-health-tab"
 import { SoftwareHealthTab } from "./software-health-tab"
 import { typeScale } from "@/lib/typography"
+import { accentIconTileClassName } from "@/lib/surface"
 import { cn } from "@/lib/utils"
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
@@ -53,27 +54,27 @@ export function OverviewPage() {
       <PageHeader
         eyebrow="Welcome back, John Doe"
         title="Portfolio Analytics Overview"
-        description="Live KPIs synthesized from utilization, ingestion cadence, renewal pressure, and vendor-led seat concentration—designed for quick IT Ops and Finance reviews inside your tenant footprint."
+        description="Live KPIs synthesized from utilization, ingestion cadence, renewal pressure, and vendor-led seat concentration, designed for quick IT Ops and Finance reviews inside your tenant footprint."
       >
-        {/* SECTION 1 — Executive Signals */}
-        <section className="flex flex-col gap-4">
-          <Card className="gap-6 border border-primary/25 bg-linear-to-b from-primary/8 via-accent/30 to-card ring-1 ring-primary/15">
-            <CardContent className="flex flex-col gap-10">
-              <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                <div className="flex min-w-0 flex-col gap-2.5">
+        {/* SECTION 1: Executive Signals */}
+        <section className="flex flex-col gap-5">
+          <Card className="gap-0 border border-primary/25 bg-linear-to-b from-primary/8 via-accent/30 to-card py-0 ring-1 ring-primary/15">
+            <CardContent className="flex flex-col gap-8 p-(--card-spacing) sm:gap-10">
+              <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+                <div className="flex min-w-0 flex-col gap-3">
                   <SectionLabel>Executive Signals</SectionLabel>
                   <div className="flex items-start gap-3">
-                    <span className="mt-0.5 mb-1 flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent/80 text-primary ring-1 ring-primary/20">
+                    <span className={cn(accentIconTileClassName, "mt-0.5")}>
                       <Target className="size-5" strokeWidth={1.75} />
                     </span>
-                    <div className="flex min-w-0 flex-col gap-1.5">
+                    <div className="flex min-w-0 flex-col gap-2">
                       <h2 className={cn(typeScale.heading, "text-xl")}>
                         Cross-domain readiness &amp; risk posture
                       </h2>
-                      <p className={cn("max-w-3xl", typeScale.body.muted)}>
+                      <p className={cn("max-w-3xl leading-relaxed", typeScale.body.muted)}>
                         Blends hardware posture (deployment depth, ingestion cadence) with entitlement
-                        economics (seat burn-down, SaaS cliff risk, vendor concentration)—no manual
-                        spreadsheet stitching required.
+                        economics (seat burn-down, SaaS cliff risk, vendor concentration) without
+                        manual spreadsheet stitching required.
                       </p>
                     </div>
                   </div>
@@ -94,7 +95,7 @@ export function OverviewPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4 *:h-full">
                 <MetricCard
                   label="Record Density"
                   icon={Layers}
@@ -102,44 +103,52 @@ export function OverviewPage() {
                   description="Tracked roster · 51 hardware assets · 71 active license contracts"
                   footer={
                     <div className="flex flex-col gap-2">
-                      <span className="text-xs font-semibold tracking-wide text-foreground uppercase">
+                      <span className={cn(typeScale.caption.overline, "text-foreground")}>
                         Rolling 60-day intake
                       </span>
-                      <span>
-                        Hardware <span className="text-foreground">+51</span> · Software{" "}
-                        <span className="text-foreground">+71</span> net-new records surfaced in the trailing
-                        two telemetry windows.
-                      </span>
-                      <span>
+                      <p className={typeScale.caption.meta}>
+                        Hardware <span className={typeScale.body.emphasis}>+51</span> · Software{" "}
+                        <span className={typeScale.body.emphasis}>+71</span> net-new records surfaced in
+                        the trailing two telemetry windows.
+                      </p>
+                      <p className={typeScale.caption.meta}>
                         1 distinct catalog categories materially represented across the hardware layer.
-                      </span>
+                      </p>
                     </div>
                   }
                 />
 
                 <MetricCard label="Deployment Depth" icon={CircleCheck}>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Assigned Coverage</span>
-                    <span className="font-medium text-foreground tabular-nums">3.9%</span>
+                  <div className="flex flex-col gap-3">
+                    <div className="flex items-center justify-between">
+                      <span className={typeScale.body.muted}>Assigned Coverage</span>
+                      <span className={typeScale.body.tabularEmphasis}>3.9%</span>
+                    </div>
+                    <Progress value={3.9} className="h-2" />
+                    <p className={typeScale.body.muted}>
+                      2 fielded units versus 51 total tags. Warehouse / staging buffer:{" "}
+                      <span className={typeScale.body.emphasis}>49</span>.
+                    </p>
                   </div>
-                  <Progress value={3.9} className="mt-2 h-2" />
-                  <p className="mt-3 text-sm text-muted-foreground">
-                    2 fielded units versus 51 total tags. Warehouse / staging buffer:{" "}
-                    <span className="text-foreground">49</span>.
-                  </p>
                 </MetricCard>
 
                 <MetricCard label="Seat Economics" icon={Users}>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Seat Consumption</span>
-                    <span className="font-medium text-foreground tabular-nums">2.6%</span>
-                  </div>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Entitled 78 pooled seats · 2 allocated to employees or shared mailboxes today.
-                  </p>
-                  <div className="mt-3 rounded-lg bg-muted px-3 py-2 text-sm text-muted-foreground">
-                    Largest vendor footprint: <span className="font-medium text-foreground">META</span>{" "}
-                    commanding ~64.1% of your entitled seat universe.
+                  <div className="flex flex-col gap-3">
+                    <div className="flex items-center justify-between">
+                      <span className={typeScale.body.muted}>Seat Consumption</span>
+                      <span className={typeScale.body.tabularEmphasis}>2.6%</span>
+                    </div>
+                    <Progress value={2.6} className="h-2" />
+                    <p className={typeScale.body.muted}>
+                      Entitled 78 pooled seats · 2 allocated to employees or shared mailboxes today.
+                    </p>
+                    <div className="rounded-lg border border-dashed border-border px-3 py-2.5">
+                      <p className={typeScale.body.muted}>
+                        Largest vendor footprint:{" "}
+                        <span className={typeScale.body.emphasis}>META</span> commanding ~64.1% of your
+                        entitled seat universe.
+                      </p>
+                    </div>
                   </div>
                 </MetricCard>
 
@@ -148,16 +157,17 @@ export function OverviewPage() {
                   icon={TriangleAlert}
                   value="~20"
                   description="countable exposure units (warranty / repair / license cliffs)"
+                  descriptionClassName={typeScale.body.emphasis}
                 >
-                  <ul className="mt-3 flex flex-col gap-2 text-sm">
+                  <ul className="flex flex-col gap-2.5">
                     {[
                       { label: "Hardware warranty cliffs (30d)", value: "0" },
                       { label: "Fleet in remediation", value: "0" },
                       { label: "SaaS renewals (60d + expired)", value: "20" },
                     ].map((row) => (
-                      <li key={row.label} className="flex items-center justify-between">
-                        <span className="text-muted-foreground">{row.label}</span>
-                        <span className="font-medium text-foreground tabular-nums">{row.value}</span>
+                      <li key={row.label} className="flex items-center justify-between gap-3">
+                        <span className={typeScale.body.muted}>{row.label}</span>
+                        <span className={typeScale.body.tabularEmphasis}>{row.value}</span>
                       </li>
                     ))}
                   </ul>
@@ -167,7 +177,7 @@ export function OverviewPage() {
           </Card>
         </section>
 
-        {/* SECTION 2 — Asset Health */}
+        {/* SECTION 2: Asset Health */}
         <section className="flex flex-col gap-4">
           <SectionHeading
             title="Asset Health"
@@ -214,7 +224,7 @@ export function OverviewPage() {
                       <Mail />
                     </EmptyMedia>
                     <EmptyTitle>Mailbox overview</EmptyTitle>
-                    <EmptyDescription>Coming soon — mailbox insights will appear here.</EmptyDescription>
+                    <EmptyDescription>Coming soon. Mailbox insights will appear here.</EmptyDescription>
                   </EmptyHeader>
                 </Empty>
               </CardContainer>

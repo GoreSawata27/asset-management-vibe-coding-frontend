@@ -89,9 +89,9 @@ function HardwarePage() {
         setFormTag(selectedAsset.tag)
         setFormCategory(selectedAsset.category)
         setFormSupplier(selectedAsset.supplier)
-        setFormLocation(selectedAsset.location === "—" ? "" : selectedAsset.location)
+        setFormLocation(selectedAsset.location || "")
         setFormWarranty(selectedAsset.warranty === "Expired" ? "" : selectedAsset.warranty)
-        setFormSerial(selectedAsset.serial === "—" ? "" : selectedAsset.serial)
+        setFormSerial(selectedAsset.serial || "")
       } else if (activeModal === "assign") {
         setSelectedAssignee(selectedAsset.assignee || HARDWARE_EMPLOYEES[0])
       } else if (activeModal === "repair") {
@@ -164,9 +164,9 @@ function HardwarePage() {
         status: "In Stock",
         assignee: "",
         supplier: formSupplier,
-        location: formLocation || "—",
-        warranty: formWarranty || "—",
-        serial: formSerial || "—",
+        location: formLocation,
+        warranty: formWarranty,
+        serial: formSerial,
         history: [
           {
             date: todayStr,
@@ -188,7 +188,7 @@ function HardwarePage() {
           if (a.name !== formName) changes.push(`Name to '${formName}'`)
           if (a.category !== formCategory) changes.push(`Category to '${formCategory}'`)
           if (a.supplier !== formSupplier) changes.push(`Supplier to '${formSupplier}'`)
-          if (a.location !== (formLocation || "—")) changes.push(`Location to '${formLocation || "—"}'`)
+          if (a.location !== formLocation) changes.push(`Location to '${formLocation || "None"}'`)
           if (a.warranty !== formWarranty) changes.push(`Warranty to '${formWarranty}'`)
 
           if (changes.length > 0) {
@@ -206,9 +206,9 @@ function HardwarePage() {
             tag: formTag,
             category: formCategory,
             supplier: formSupplier,
-            location: formLocation || "—",
-            warranty: formWarranty || "—",
-            serial: formSerial || "—",
+            location: formLocation,
+            warranty: formWarranty,
+            serial: formSerial,
             history: updatedHistory,
           }
         })

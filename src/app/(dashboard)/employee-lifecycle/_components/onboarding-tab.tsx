@@ -34,6 +34,7 @@ import {
   dialogShellClassNameCompact,
 } from "@/lib/dialog-layout"
 import { type PendingOnboardingEmployee, type StockItemStatus } from "@/lib/employee-lifecycle/data"
+import { TABLE_EMPTY_CELL } from "@/lib/table-empty"
 import { typeScale } from "@/lib/typography"
 import { cn } from "@/lib/utils"
 
@@ -79,7 +80,7 @@ const STOCK_STATUS_VARIANT: Record<StockItemStatus, React.ComponentProps<typeof 
 }
 
 function StockCell({ row }: { row: PendingOnboardingEmployee }) {
-  if (row.stock.length === 0) return <span className={typeScale.body.muted}>—</span>
+  if (row.stock.length === 0) return <span className={typeScale.body.muted}>{TABLE_EMPTY_CELL}</span>
 
   return (
     <div className="flex min-w-0 flex-col gap-2">
@@ -119,14 +120,14 @@ function OnboardingTable({ rows, selectedIds, onToggle }: OnboardingTableProps) 
         header: "Department",
         sortable: false,
         cellClassName: typeScale.body.muted,
-        cell: (row) => row.department,
+        cell: (row) => row.department || TABLE_EMPTY_CELL,
       },
       {
         id: "templateName",
         header: "Template",
         sortable: false,
         cellClassName: typeScale.body.muted,
-        cell: (row) => row.templateName,
+        cell: (row) => row.templateName || TABLE_EMPTY_CELL,
       },
       {
         id: "stock",

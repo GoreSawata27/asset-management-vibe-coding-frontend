@@ -15,11 +15,12 @@ import {
   formatEmployeeLocation,
   type Employee,
 } from "@/lib/employees/data"
+import { TABLE_EMPTY_CELL } from "@/lib/table-empty"
 import { typeScale } from "@/lib/typography"
 import { cn } from "@/lib/utils"
 
 function formatStartDate(value: string) {
-  if (!value) return "—"
+  if (!value) return TABLE_EMPTY_CELL
   const parsed = parseISO(value)
   return isValid(parsed) ? format(parsed, "dd MMM yyyy") : value
 }
@@ -94,17 +95,21 @@ function EmployeeDetailSheet({
                   </div>
                   <div className="flex justify-between gap-4">
                     <dt className={typeScale.body.muted}>Job title</dt>
-                    <dd className={cn("text-right", typeScale.body.emphasis)}>{employee.jobTitle || "—"}</dd>
+                    <dd className={cn("text-right", typeScale.body.emphasis)}>{employee.jobTitle || TABLE_EMPTY_CELL}</dd>
                   </div>
                   <div className="flex justify-between gap-4">
                     <dt className={typeScale.body.muted}>Department</dt>
                     <dd className={cn("text-right", typeScale.body.emphasis)}>
-                      {employee.department || "—"}
+                      {employee.department || TABLE_EMPTY_CELL}
                     </dd>
                   </div>
                   <div className="flex justify-between gap-4">
                     <dt className={typeScale.body.muted}>Manager</dt>
-                    <dd className={cn("text-right", typeScale.body.emphasis)}>{employee.manager}</dd>
+                    <dd className={cn("text-right", typeScale.body.emphasis)}>
+                      {!employee.manager || employee.manager === "None"
+                        ? TABLE_EMPTY_CELL
+                        : employee.manager}
+                    </dd>
                   </div>
                   <div className="flex justify-between gap-4">
                     <dt className={typeScale.body.muted}>Start date</dt>
@@ -115,7 +120,7 @@ function EmployeeDetailSheet({
                   <div>
                     <dt className={typeScale.body.muted}>Location</dt>
                     <dd className={cn("mt-1 leading-relaxed", typeScale.body.default)}>
-                      {formatEmployeeLocation(employee) || "—"}
+                      {formatEmployeeLocation(employee) || TABLE_EMPTY_CELL}
                     </dd>
                   </div>
                 </dl>

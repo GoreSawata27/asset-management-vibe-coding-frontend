@@ -19,6 +19,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
 import { type LabelEmployee } from "@/lib/employee-lifecycle/data"
+import { TABLE_EMPTY_CELL } from "@/lib/table-empty"
 import { typeScale } from "@/lib/typography"
 import { cn } from "@/lib/utils"
 
@@ -87,7 +88,7 @@ function LabelTable({ rows, selectedIds, onToggle, onGenerate }: LabelTableProps
         header: "Department",
         sortable: false,
         cellClassName: typeScale.body.muted,
-        cell: (row) => row.department,
+        cell: (row) => row.department || TABLE_EMPTY_CELL,
       },
       {
         id: "hardware",

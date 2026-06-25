@@ -16,6 +16,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty"
 import { formatEmployeeLocation, type Employee } from "@/lib/employees/data"
+import { TABLE_EMPTY_CELL } from "@/lib/table-empty"
 import { typeScale } from "@/lib/typography"
 import { cn } from "@/lib/utils"
 
@@ -29,7 +30,7 @@ function getInitials(name: string) {
 }
 
 function formatStartDate(value: string) {
-  if (!value) return "—"
+  if (!value) return TABLE_EMPTY_CELL
   const parsed = parseISO(value)
   return isValid(parsed) ? format(parsed, "dd MMM yyyy") : value
 }
@@ -134,7 +135,7 @@ function EmployeesTable({ rows, onOpenDetail, onEdit, onDelete }: EmployeesTable
         minWidth: 128,
         sortValue: (row) => row.department,
         cellClassName: typeScale.body.muted,
-        cell: (row) => row.department || "—",
+        cell: (row) => row.department || TABLE_EMPTY_CELL,
       },
       {
         id: "location",
@@ -144,7 +145,10 @@ function EmployeesTable({ rows, onOpenDetail, onEdit, onDelete }: EmployeesTable
         resizable: true,
         sortValue: (row) => formatEmployeeLocation(row),
         cellClassName: cn(typeScale.body.muted, "truncate"),
-        cell: (row) => <span className="block truncate">{formatEmployeeLocation(row)}</span>,
+        cell: (row) => {
+          const location = formatEmployeeLocation(row)
+          return <span className="block truncate">{location || TABLE_EMPTY_CELL}</span>
+        },
       },
       {
         id: "assigned",
@@ -162,7 +166,7 @@ function EmployeesTable({ rows, onOpenDetail, onEdit, onDelete }: EmployeesTable
         sortValue: (row) => (row.workspaceEnabled ? row.workspaceRole : ""),
         cellClassName: cn(typeScale.body.muted, "truncate"),
         cell: (row) => (
-          <span className="block truncate">{row.workspaceEnabled ? row.workspaceRole : "—"}</span>
+          <span className="block truncate">{row.workspaceEnabled ? row.workspaceRole : TABLE_EMPTY_CELL}</span>
         ),
       },
       {

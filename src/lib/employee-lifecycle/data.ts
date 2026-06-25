@@ -253,7 +253,7 @@ export const initialLabelEmployees: LabelEmployee[] = [
     id: "lbl-2",
     name: "Mahesh",
     email: "mahesh@dtskill.com",
-    department: "—",
+    department: "",
     hardwareCount: 2,
     addressReady: true,
   },
@@ -316,7 +316,7 @@ export const initialOffboardingCandidates: OffboardingCandidate[] = [
     id: "off-cand-3",
     name: "Mahesh",
     email: "mahesh@dtskill.com",
-    department: "—",
+    department: "",
     status: "active",
   },
 ]

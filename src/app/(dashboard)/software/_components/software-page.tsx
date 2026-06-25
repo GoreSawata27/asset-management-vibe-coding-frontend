@@ -193,7 +193,7 @@ function SoftwarePage() {
         supplier: formSupplier,
         totalSeats: formTotalSeats,
         assignedSeats: 0,
-        renewalDate: formRenewalDate || "—",
+        renewalDate: formRenewalDate,
         cost: formCost || "$0/mo",
         key: formKey,
         status: "Active",

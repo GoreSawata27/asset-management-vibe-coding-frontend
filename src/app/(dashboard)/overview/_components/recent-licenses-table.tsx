@@ -5,6 +5,7 @@ import * as React from "react"
 import { LicenseStatusBadge } from "@/app/(dashboard)/software/_components/license-status-badge"
 import { DataTable, type DataTableColumn } from "@/components/custom/DataTable"
 import { typeScale } from "@/lib/typography"
+import { TABLE_EMPTY_CELL } from "@/lib/table-empty"
 import type { LicenseStatus } from "@/lib/software/data"
 
 export interface RecentLicense {
@@ -76,7 +77,7 @@ const columns: DataTableColumn<RecentLicense>[] = [
       row.expires ? (
         <span className="text-foreground tabular-nums">{row.expires}</span>
       ) : (
-        <span className="text-muted-foreground">—</span>
+        <span className="text-muted-foreground">{TABLE_EMPTY_CELL}</span>
       ),
   },
 ]

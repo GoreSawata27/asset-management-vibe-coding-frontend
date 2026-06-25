@@ -1,4 +1,5 @@
 import type { ReportKpi, ReportRow } from "@/lib/reports/types"
+import { TABLE_EMPTY_CELL } from "@/lib/table-empty"
 
 export type ReportExportColumn = {
   key: string
@@ -90,7 +91,7 @@ function buildPrintableHtml(snapshot: ReportExportSnapshot) {
         `<tr>${snapshot.columns
           .map(
             (column) =>
-              `<td style="padding:10px 12px;font-size:14px;color:#0f172a;border-bottom:1px solid #e2e8f0;">${row[column.key] ?? "—"}</td>`
+              `<td style="padding:10px 12px;font-size:14px;color:#0f172a;border-bottom:1px solid #e2e8f0;">${row[column.key] ?? TABLE_EMPTY_CELL}</td>`
           )
           .join("")}</tr>`
     )

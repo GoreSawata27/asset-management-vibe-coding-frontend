@@ -15,11 +15,13 @@ import { AssetStatusBadge } from "./asset-status-badge"
 import { Button } from "@/components/ui/button"
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty"
 import type { HardwareAsset } from "@/lib/hardware/data"
+import { TABLE_EMPTY_CELL } from "@/lib/table-empty"
 import { typeScale } from "@/lib/typography"
 import { cn } from "@/lib/utils"
 
 function formatWarranty(value: string) {
-  if (!value || value === "—" || value === "Expired") return value
+  if (!value) return TABLE_EMPTY_CELL
+  if (value === "Expired") return value
   const parsed = parseISO(value)
   return isValid(parsed) ? format(parsed, "dd MMM yyyy") : value
 }
@@ -129,7 +131,7 @@ function HardwareAssetsTable({
         sortValue: (row) => row.assignee,
         cell: (row) => (
           <span className={row.assignee ? typeScale.body.default : typeScale.body.muted}>
-            {row.assignee || "—"}
+            {row.assignee || TABLE_EMPTY_CELL}
           </span>
         ),
       },
@@ -145,7 +147,7 @@ function HardwareAssetsTable({
         header: "Location",
         sortValue: (row) => row.location,
         cellClassName: typeScale.body.muted,
-        cell: (row) => (row.location && row.location !== "—" ? row.location : "—"),
+        cell: (row) => (row.location ? row.location : TABLE_EMPTY_CELL),
       },
       {
         id: "warranty",

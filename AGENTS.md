@@ -2,9 +2,7 @@
 
 # This is NOT the Next.js you know
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
-
-<!-- END:nextjs-agent-rules -->
+This version has breaking changes: APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 
 # Engineering Rules
 
@@ -35,18 +33,23 @@ mandatory and non-negotiable.
    reference tokens. Test that a component looks correct after switching themes.
 10. **Follow `DESIGN.md` before generating UI.** Layout, sidebar, navbar, header,
     token, scroll, card selection (§10), and responsive specifications are defined there.
+11. **Never use em dashes (—).** Do not use `—` (U+2014) in user-facing copy,
+    labels, descriptions, placeholders, or comments. Prefer commas, periods,
+    colons, or parentheses to preserve flow. In tables, never use em dashes for
+    empty or missing values; use a plain hyphen (`-`) via `TABLE_EMPTY_CELL`
+    from `@/lib/table-empty` (or `tableCellOrEmpty()` for optional strings).
 
 ## Card & panel primitives
 
 See **`DESIGN.md` §10** for the full decision guide. In short:
 
-- **`CardContainer`** — default panel (title + body + optional action/footer). Use
+- **`CardContainer`**: default panel (title + body + optional action/footer). Use
   `variant="form"` for forms with a save row.
-- **`MetricCard`** — KPI stats only.
-- **`ChartCard`** — chart panels only.
-- **`DataTable`** — tabular data with columns.
-- **`ReportListCard`** — report row lists (hardware / software / certifications reports).
-- **`ModalContainer`** — standard dashboard modal (title, body, `CardActions` footer). See **`DESIGN.md` §10**.
+- **`MetricCard`**: KPI stats only.
+- **`ChartCard`**: chart panels only.
+- **`DataTable`**: tabular data with columns.
+- **`ReportListCard`**: report row lists (hardware / software / certifications reports).
+- **`ModalContainer`**: standard dashboard modal (title, body, `CardActions` footer). See **`DESIGN.md` §10**.
 - Do **not** hand-roll `Card` + `CardTitle` + `CardContent` on new pages.
 
 ## Modal performance
@@ -76,13 +79,13 @@ These keep the shell visually consistent across every page. Full specs live in
    title (from `getPageTitle`) is the dominant left element.
 5. **Account avatar opens `UserMenu`.** The avatar in the navbar is the single
    entry point to the profile dropdown. Extend `UserMenu` (add a footer
-   shortcut); never fork it or hand-roll popover/outside-click/escape logic —
-   compose the shared `DropdownMenu` primitive.
+   shortcut); never fork it or hand-roll popover/outside-click/escape logic.
+   Compose the shared `DropdownMenu` primitive.
 6. **Account data flows from `DashboardLayout`.** Pass `user`
    (`{ name, email, avatarUrl?, organization? }`) and `onSignOut` through the
    layout. Do not read user/org data ad hoc inside pages.
 
-## Theme tokens — quick reference
+## Theme tokens: quick reference
 
 Source tokens (defined per theme in `src/app/globals.css`):
 `--background`, `--surface`, `--surface-elevated`, `--border`,
@@ -93,3 +96,5 @@ These bridge to the shadcn token contract (`--card`, `--muted`, `--foreground`,
 `--accent`, `--sidebar`, …), so every `ui/*` component adapts with no extra work.
 Add a new workspace theme by adding a `[data-theme="..."]` block in `globals.css`
 and an entry in `src/lib/themes.ts`.
+
+<!-- END:nextjs-agent-rules -->

@@ -25,6 +25,7 @@ import {
   dialogShellClassNameCompact,
 } from "@/lib/dialog-layout"
 import { type DepartmentTemplate, type TemplateLine } from "@/lib/employee-lifecycle/data"
+import { TABLE_EMPTY_CELL } from "@/lib/table-empty"
 import { typeScale } from "@/lib/typography"
 
 function TemplateLinesSection({ title, lines }: { title: "Hardware" | "Software"; lines: TemplateLine[] }) {
@@ -36,7 +37,7 @@ function TemplateLinesSection({ title, lines }: { title: "Hardware" | "Software"
     <div className="flex flex-col gap-1.5">
       <p className={typeScale.caption.overline}>{title}</p>
       {filtered.length === 0 ? (
-        <p className={typeScale.caption.meta}>—</p>
+        <p className={typeScale.caption.meta}>{TABLE_EMPTY_CELL}</p>
       ) : (
         <ul className="flex flex-col gap-1.5">
           {filtered.map((line) => (

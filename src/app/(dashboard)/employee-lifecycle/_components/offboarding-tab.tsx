@@ -57,6 +57,7 @@ import {
   type OffboardingCandidate,
   type OffboardingChecklistItem,
 } from "@/lib/employee-lifecycle/data"
+import { TABLE_EMPTY_CELL } from "@/lib/table-empty"
 import { typeScale } from "@/lib/typography"
 import { cn } from "@/lib/utils"
 
@@ -205,7 +206,7 @@ function ActiveOffboardingCard({
                 <p className={cn(typeScale.caption.meta, "tabular-nums")}>{offboarding.hardware.length}</p>
               </div>
               {offboarding.hardware.length === 0 ? (
-                <p className={typeScale.caption.meta}>—</p>
+                <p className={typeScale.caption.meta}>{TABLE_EMPTY_CELL}</p>
               ) : (
                 <ul className="flex flex-col gap-1.5">
                   {offboarding.hardware.map((item) => (
@@ -224,7 +225,7 @@ function ActiveOffboardingCard({
                 <p className={cn(typeScale.caption.meta, "tabular-nums")}>{offboarding.licenses.length}</p>
               </div>
               {offboarding.licenses.length === 0 ? (
-                <p className={typeScale.caption.meta}>—</p>
+                <p className={typeScale.caption.meta}>{TABLE_EMPTY_CELL}</p>
               ) : (
                 <ul className="flex flex-col gap-1.5">
                   {offboarding.licenses.map((item) => (

@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils"
 import { typeScale } from "@/lib/typography"
 
 const HARDWARE_STATS = [
-  { label: "Total Assets", value: "51", description: "— Stable vs prior month-end", icon: Boxes },
+  { label: "Total Assets", value: "51", description: "Stable vs prior month-end", icon: Boxes },
   { label: "Assigned", value: "2", description: "4% of fleet assigned", icon: CircleCheck },
   { label: "In Repair", value: "0", description: "Unavailable to deploy", icon: TriangleAlert },
   { label: "Warranty Expiring", value: "1", description: "Rolling 30-day window", icon: KeyRound },
@@ -74,7 +74,7 @@ export function HardwareHealthTab() {
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <ChartCard
           title="Procurement Pulse"
-          description="Net-new hardware onboarding volume by calendar month—not cumulative stock—reveals bursts of capex-led activity versus dormant periods."
+          description="Net-new hardware onboarding volume by calendar month (not cumulative stock) reveals bursts of capex-led activity versus dormant periods."
           action={<ChartContextBadge eyebrow="Rolling window" meta="Eight months trailing" />}
         >
           <ProcurementPulseChart />
@@ -82,7 +82,7 @@ export function HardwareHealthTab() {
 
         <ChartCard
           title="Taxonomy Concentration"
-          description="Which catalog labels absorb the plurality of capex-heavy units—helps spot imbalances before refresh cycles."
+          description="Which catalog labels absorb the plurality of capex-heavy units, helping spot imbalances before refresh cycles."
           action={<ChartContextBadge eyebrow="Top slices" meta="Showing 1 tier" />}
         >
           <TaxonomyChart />

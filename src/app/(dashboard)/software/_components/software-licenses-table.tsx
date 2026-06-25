@@ -16,11 +16,12 @@ import { SeatUtilization } from "./seat-utilization"
 import { Button } from "@/components/ui/button"
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty"
 import type { SoftwareLicense } from "@/lib/software/data"
+import { TABLE_EMPTY_CELL } from "@/lib/table-empty"
 import { typeScale } from "@/lib/typography"
 import { cn } from "@/lib/utils"
 
 function formatRenewalDate(value: string) {
-  if (!value || value === "—") return "—"
+  if (!value) return TABLE_EMPTY_CELL
   const parsed = parseISO(value)
   return isValid(parsed) ? format(parsed, "dd MMM yyyy") : value
 }
@@ -105,7 +106,7 @@ function SoftwareLicensesTable({ rows, onHistory, onSeats, onEdit, onDelete }: S
         header: "Cost",
         sortValue: (row) => row.cost,
         cellClassName: cn(typeScale.body.tabularEmphasis, "font-mono"),
-        cell: (row) => row.cost ?? "—",
+        cell: (row) => row.cost ?? TABLE_EMPTY_CELL,
       },
       {
         id: "renewalDate",

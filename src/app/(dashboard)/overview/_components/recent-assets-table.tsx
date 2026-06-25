@@ -5,6 +5,7 @@ import * as React from "react"
 import { Badge } from "@/components/ui/badge"
 import { DataTable, type DataTableColumn } from "@/components/custom/DataTable"
 import { typeScale } from "@/lib/typography"
+import { TABLE_EMPTY_CELL } from "@/lib/table-empty"
 import { cn } from "@/lib/utils"
 
 export interface RecentAsset {
@@ -68,7 +69,7 @@ const columns: DataTableColumn<RecentAsset>[] = [
       row.assignee ? (
         <span className="text-foreground">{row.assignee}</span>
       ) : (
-        <span className="text-muted-foreground">—</span>
+        <span className="text-muted-foreground">{TABLE_EMPTY_CELL}</span>
       ),
   },
   {

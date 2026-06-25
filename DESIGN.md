@@ -695,8 +695,16 @@ Do not hand-roll segmented filter pills.
 
 Use for **numeric KPI tiles** only — overview stats, report KPI rows, page header
 metric grids. Pass `iconVariant="badge"` for the accent icon tile (overview /
-inventory pages). Optional `children` for mini breakdowns; optional `footer` for
-supplementary copy (no top divider — built into the primitive).
+inventory pages). Optional `children` for progress bars, mini-lists, nested stats;
+optional `footer` for supplementary copy below an **inset** `border-t border-border`
+rule (`mx-(--card-spacing)` — does not touch the card shell). Footer band uses
+`pt-(--card-spacing)` / `pb-(--card-spacing)`; body keeps `pb-(--card-spacing)`
+above the rule.
+
+Typography: KPI value → `typeScale.titleMetric`; subtitle → `caption.meta`;
+footer overline → `caption.overline` + `text-foreground`; detail copy →
+`caption.meta` / `body.muted`; inline emphasis → `body.emphasis` /
+`body.tabularEmphasis`. Optional `descriptionClassName` overrides description tier.
 
 Do **not** use `MetricCard` where you need a title + free-form panel body — use
 `CardContainer`.
@@ -755,7 +763,7 @@ only with an overline label inside). Report “coming soon” placeholders use
 
 | Case | Pattern |
 | ---- | ------- |
-| Executive Signals hero (Overview) | `Card` + `CardContent`, gradient override |
+| Executive Signals hero (Overview) | `Card` + `CardContent`, gradient override; KPI grid `gap-5`, `*:h-full` on `MetricCard` row for equal tile height |
 | Prompt report executive summary | Decorated `Card`, gradient tint |
 | `ReportListCard` | Custom header/footer bands (see above) |
 | Auth forms | `AuthPageShell` / auth-specific layout |

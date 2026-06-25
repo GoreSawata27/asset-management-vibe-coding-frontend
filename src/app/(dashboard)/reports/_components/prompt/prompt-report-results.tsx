@@ -18,6 +18,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import type { PromptReportColumn, PromptReportResult } from "@/lib/reports/prompt"
+import { TABLE_EMPTY_CELL } from "@/lib/table-empty"
 import { accentIconTileClassName } from "@/lib/surface"
 import { typeScale } from "@/lib/typography"
 import { cn } from "@/lib/utils"
@@ -41,7 +42,7 @@ function isStatusColumn(column: PromptReportColumn) {
 }
 
 function PromptReportCell({ column, value }: { column: PromptReportColumn; value: string | undefined }) {
-  if (!value) return "—"
+  if (!value) return TABLE_EMPTY_CELL
 
   if (isStatusColumn(column)) {
     return <ReportStatusBadge badge={formatStatusLabel(value)} />

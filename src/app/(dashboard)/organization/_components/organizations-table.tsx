@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty"
 import { formatOrganizationStatus, type Organization, type OrganizationStatus } from "@/lib/organization/data"
+import { TABLE_EMPTY_CELL } from "@/lib/table-empty"
 import { typeScale } from "@/lib/typography"
 import { cn } from "@/lib/utils"
 
@@ -26,7 +27,7 @@ const statusBadgeVariant: Record<OrganizationStatus, "success" | "warning" | "de
 }
 
 function formatActivatedAt(value: string) {
-  if (!value) return "—"
+  if (!value) return TABLE_EMPTY_CELL
   const parsed = parseISO(value)
   return isValid(parsed) ? format(parsed, "dd MMM yyyy") : value
 }
@@ -60,7 +61,7 @@ function RegionCell({ row }: { row: Organization }) {
 
 function ContactCell({ row }: { row: Organization }) {
   const hasContact = row.billingEmail || row.companyPhone || row.website
-  if (!hasContact) return <span className={typeScale.body.muted}>—</span>
+  if (!hasContact) return <span className={typeScale.body.muted}>{TABLE_EMPTY_CELL}</span>
 
   return (
     <div className="flex min-w-0 flex-col gap-1">
@@ -161,7 +162,7 @@ function OrganizationsTable({ rows, onEdit, onDelete, onOnboard, onToggleActive 
         id: "industry",
         header: "Industry",
         sortValue: (row) => row.industry,
-        cell: (row) => <span className={typeScale.body.default}>{row.industry || "—"}</span>,
+        cell: (row) => <span className={typeScale.body.default}>{row.industry || TABLE_EMPTY_CELL}</span>,
       },
       {
         id: "size",

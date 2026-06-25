@@ -6,6 +6,7 @@ import {
   type HardwareAsset,
 } from "@/lib/hardware/data"
 import type { ReportConfig, ReportKpi, ReportRow } from "@/lib/reports/types"
+import { TABLE_EMPTY_CELL } from "@/lib/table-empty"
 
 export type { ReportKpi, ReportRow }
 
@@ -114,7 +115,8 @@ export function enrichHardwareAssets(assets: HardwareAsset[] = initialHardwareAs
 }
 
 export function formatReportDate(value: string) {
-  if (value === "Expired" || value === "—") return value
+  if (!value) return TABLE_EMPTY_CELL
+  if (value === "Expired") return value
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return value
   return date.toLocaleDateString("en-GB")
@@ -129,7 +131,7 @@ export function formatCurrency(value: number) {
 }
 
 function parseDate(value: string) {
-  if (value === "Expired" || value === "—") return null
+  if (value === "Expired" || !value) return null
   const date = new Date(value)
   return Number.isNaN(date.getTime()) ? null : date
 }
@@ -367,7 +369,7 @@ export const HARDWARE_REPORT_CONFIG: Record<HardwareReportKind, HardwareReportCo
     kpis: (assets) => {
       const checkedOut = assets.filter((asset) => asset.status === "Assigned")
       const locations = new Set(
-        checkedOut.map((asset) => asset.location).filter((location) => location !== "—")
+        checkedOut.map((asset) => asset.location).filter(Boolean)
       ).size
 
       return [

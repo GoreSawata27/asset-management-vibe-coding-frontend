@@ -101,7 +101,7 @@ export function SoftwareHealthTab() {
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <ChartCard
           title="Commercial Velocity"
-          description="Tracks how aggressively new SKU lines are boarded into the entitlement ledger—not renewals—which is why it can spike around quarter-end purchasing pushes."
+          description="Tracks how aggressively new SKU lines are boarded into the entitlement ledger (not renewals), which is why it can spike around quarter-end purchasing pushes."
           eyebrow="Contract adds"
           meta="Net-new onboarding"
         >
@@ -110,7 +110,7 @@ export function SoftwareHealthTab() {
 
         <ChartCard
           title="Vendor Seat Concentration"
-          description="Normalized pooled seats—not spend—expose where shadow IT risk accumulates whenever a mono-vendor SKU consumes unbalanced capacity."
+          description="Normalized pooled seats (not spend) expose where shadow IT risk accumulates whenever a mono-vendor SKU consumes unbalanced capacity."
           eyebrow="Ranking"
           meta="Top publishers"
         >

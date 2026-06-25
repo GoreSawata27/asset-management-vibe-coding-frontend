@@ -3,6 +3,7 @@ import { type LucideIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { typeScale } from "@/lib/typography"
+import { surfaceDividerTopClassName } from "@/lib/surface"
 import { Card } from "@/components/ui/card"
 
 /**
@@ -23,6 +24,7 @@ export interface MetricCardProps extends React.ComponentProps<typeof Card> {
   action?: React.ReactNode
   footer?: React.ReactNode
   valueClassName?: string
+  descriptionClassName?: string
   children?: React.ReactNode
 }
 
@@ -35,6 +37,7 @@ function MetricCard({
   action,
   footer,
   valueClassName,
+  descriptionClassName,
   children,
   className,
   size = "sm",
@@ -50,8 +53,8 @@ function MetricCard({
     ) : null)
 
   return (
-    <Card size={size} className={cn("gap-2", className)} {...props}>
-      <div className="flex items-center justify-between gap-2 px-(--card-spacing) pt-(--card-spacing)">
+    <Card size={size} className={cn("flex h-full flex-col gap-0 py-0", className)} {...props}>
+      <div className="shrink-0 flex items-start justify-between gap-2 px-(--card-spacing) pt-(--card-spacing) pb-0">
         <p className={cn("flex min-w-0 items-center gap-1.5", typeScale.caption.overline)}>
           {Icon && iconVariant === "inline" ? (
             <Icon className="size-3.5 shrink-0 text-muted-foreground" strokeWidth={1.75} />
@@ -62,24 +65,31 @@ function MetricCard({
       </div>
 
       <div
-        className={cn("flex flex-col gap-1 px-(--card-spacing)", footer ? undefined : "pb-(--card-spacing)")}
+        className={cn(
+          "flex min-h-0 flex-1 flex-col gap-2 px-(--card-spacing) pt-3 pb-(--card-spacing)"
+        )}
       >
         {value !== undefined ? (
           <span className={cn(typeScale.titleMetric, valueClassName)}>{value}</span>
         ) : null}
-        {description ? <div className={cn("leading-snug", typeScale.caption.meta)}>{description}</div> : null}
+        {description ? (
+          <div className={cn("leading-relaxed", typeScale.caption.meta, descriptionClassName)}>
+            {description}
+          </div>
+        ) : null}
         {children}
       </div>
 
       {footer ? (
-        <div
-          className={cn(
-            "mt-auto px-(--card-spacing) pb-(--card-spacing) leading-relaxed",
-            typeScale.caption.meta
-          )}
-        >
-          {footer}
-        </div>
+        <>
+          <div
+            className={cn("mx-(--card-spacing) shrink-0", surfaceDividerTopClassName)}
+            aria-hidden
+          />
+          <div className="flex shrink-0 flex-col gap-2 px-(--card-spacing) pt-(--card-spacing) pb-(--card-spacing)">
+            {footer}
+          </div>
+        </>
       ) : null}
     </Card>
   )

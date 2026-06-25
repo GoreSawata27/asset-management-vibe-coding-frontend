@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty"
 import { type Supplier } from "@/lib/suppliers/data"
+import { TABLE_EMPTY_CELL } from "@/lib/table-empty"
 import { typeScale } from "@/lib/typography"
 import { cn } from "@/lib/utils"
 
@@ -24,7 +25,7 @@ function SupplierCell({ row }: { row: Supplier }) {
       </span>
       <div className="min-w-0">
         <span className={cn("block truncate", typeScale.body.emphasis)}>{row.name}</span>
-        <span className={cn("block truncate", typeScale.caption.meta)}>{row.category || "—"}</span>
+        <span className={cn("block truncate", typeScale.caption.meta)}>{row.category || TABLE_EMPTY_CELL}</span>
       </div>
     </div>
   )
@@ -32,7 +33,7 @@ function SupplierCell({ row }: { row: Supplier }) {
 
 function ContactCell({ row }: { row: Supplier }) {
   const hasContact = row.contactName || row.contactEmail || row.contactPhone
-  if (!hasContact) return <span className={typeScale.body.muted}>—</span>
+  if (!hasContact) return <span className={typeScale.body.muted}>{TABLE_EMPTY_CELL}</span>
 
   return (
     <div className="flex min-w-0 flex-col gap-1">
@@ -62,7 +63,7 @@ function ProvidesCell({ row }: { row: Supplier }) {
   if (!row.hasVendorCert) parts.push("No vendor cert")
 
   if (parts.length === 0) {
-    return <span className={typeScale.body.muted}>—</span>
+    return <span className={typeScale.body.muted}>{TABLE_EMPTY_CELL}</span>
   }
 
   return (
